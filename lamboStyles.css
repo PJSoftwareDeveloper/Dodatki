@@ -1,7 +1,18 @@
 .container[data-v-ed829f6e]{
     left: 110px;
     top: 50px;
+    width: 130px;
 }
 .border{
-    display: hidden;
+    display: none;
+}
+#nick[data-v-3865c13a] {
+    margin-top: 13px;
+    margin-left: 50px;
+}
+.container[data-v-1ceaa76c]{
+    width: 150px;
+    top: 70px;
+    left: 110px;
+    font-size: 11px;
 }
