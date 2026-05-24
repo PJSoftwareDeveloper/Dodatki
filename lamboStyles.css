@@ -1,3 +1,7 @@
+/*bars*/
+.container .bars[data-v-ed829f6e]{
+    gap: 3px;
+}
 .container[data-v-ed829f6e]{
     left: 120px;
     top: 48px;
@@ -10,23 +14,29 @@
     margin-top: 13px;
     margin-left: 50px;
 }
+/*stats*/
 .container .window[data-v-113125a0]{
     margin-left: -10px;
-    margin-top: 10px;
+    margin-top: 14px;
 }
-.small-buttons{
-    top: 208px;
-    left: 140px;
+[data-v-3865c13a] .small-buttons {
+    position: absolute;
+    top: -32px;
+    left: 25px;
+    width: 300px;
+    height: 22px;
 }
+/*BaseStats*/
 .container[data-v-1ceaa76c]{
     width: 150px;
     height: 0px;
-    top: 70px;
+    top: 75px;
     left: 110px;
     font-size: 11px;
 }
+/*Eq*/
 .equipment-grid[data-v-21259a50] {
-    top: 106px;
+    top: 107px;
     left: 7px;
 }
 .skillset[data-v-3865c13a]{
@@ -35,7 +45,47 @@
 }
 
 div span[data-v-27e581d9]{
+    width: 150px;
     text-align: center;
-    top: 3px;
+    top: 7px;
     left: 55px;
+}
+
+/*chat*/
+.chatIn[data-v-c06ccf29]{
+    top: 482px;
+    left: 29px;
+    height: 15px;
+    width: 215px;
+}
+.chatTxt[data-v-c06ccf29] {
+    scrollbar-color: gray white;
+    scrollbar-width: initial;
+    font-family: Times New Roman;
+}
+.chat[data-v-c06ccf29] {
+    width: 231px;
+    top: 272px;
+    left: 15px;
+}
+/*other*/
+.lagmeter[data-v-54d472dd] {
+    top: 8px;
+    left: 490px;
+}
+.pvpmode[data-v-54d472dd] {
+    top: 8px;
+    left: 8px;
+}
+.location[data-v-54d472dd]{
+    left: 30px;
+}
+div[data-v-7b98ceba] {
+    top: 230px;
+    left: 120px;
+}
+
+div[data-v-92e99f9c]{
+    top: 230px;
+    left: 200px;
 }
