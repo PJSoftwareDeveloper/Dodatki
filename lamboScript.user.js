@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         Margonem 2006 Interface
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Podmienia grafiki na te z 2006 roku. :D
 // @author       Lambo aka Ronnie Radke
 // @match        https://world-retro.margatron.ovh/
 // @match        https://world-legacy.margatron.ovh/
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=margatron.ovh
 // @grant        none
 // ==/UserScript==
 
@@ -167,14 +166,10 @@ div[data-v-92e99f9c]{
         const gold = containerGold.innerText.trim();
         const [str, dex, intl] = values;
 
-        containerGold.innerHTML = `<div style="text-align: center; color: gold;">Złoto: ${gold}</div>`;
-        container.innerHTML = `
-            <div style="text-align: center;">
-                Siła: ${str}
-                Zręcz.: ${dex}
-                Intel.: ${intl}
-            </div>
-        `;
+        container.style = 'text-align: center';
+        container.innerText = `Siła: ${str} Zręcz.: ${dex} Intel.: ${intl}`;
+        containerGold.style = 'text-align: center; color: gold;';
+        containerGold.innerText = `Złoto: ${gold}`;
     }
 
 
