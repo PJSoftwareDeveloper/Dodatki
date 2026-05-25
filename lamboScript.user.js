@@ -11,58 +11,6 @@
 
 (function() {
     'use strict';
-    let authToken;
-
-    function waitForToken() {
-        const interval = setInterval(() => {
-            const token = localStorage.__AUTH_TOKEN__;
-            if (token) {
-                clearInterval(interval);
-                console.log(`[AuthTokenFetch] Token gotowy: ${token}`);
-                authToken = token;
-            }
-        }, 100);
-    }
-
-    waitForToken();
-
-    const GraphQLManager = {
-        API_URL: `https://engine-${(window.location.href.includes('legacy') ? "legacy" : "retro")}.margatron.ovh/graphql`,
-
-        getToken() {
-            return authToken;
-        },
-
-        async query(queryString) {
-            const token = this.getToken();
-            if (!token) {
-                console.warn('[GraphQLManager] Brak tokena autoryzacji');
-                throw new Error('Brak tokena autoryzacji');
-            }
-
-            try {
-                const res = await fetch(this.API_URL, {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                        "authorization": token
-                    },
-                    body: JSON.stringify({ query: queryString })
-                });
-                const json = await res.json();
-
-                if (json.errors) {
-                    console.error('[GraphQLManager] GraphQL Errors:', json.errors);
-                    throw new Error('GraphQL Error: ' + JSON.stringify(json.errors));
-                }
-
-                return json.data;
-            } catch (e) {
-                console.error('[GraphQLManager] Błąd zapytania:', e);
-                throw e;
-            }
-        }
-    };
 
 //Avatar
 (async function() {
@@ -121,6 +69,7 @@
     }
 })();
 
+    //Panel
     const oldPanel = "https://i.imgur.com/zEqVNJX.png";
     const oldBottomBar = 'https://i.imgur.com/f8IKicJ.png';
 
@@ -235,7 +184,7 @@ div[data-v-92e99f9c]{
 }`;
 
     }
-
+    //Stats
     function waitForStatsContainer(callback) {
         const check = setInterval(() => {
             const container = document.querySelector('div.container[data-v-1ceaa76c][data-v-3865c13a]');
