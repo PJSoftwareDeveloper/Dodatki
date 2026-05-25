@@ -70,7 +70,7 @@
 })();
 
     //Panel
-    const oldPanel = "https://i.imgur.com/zEqVNJX.png";
+    const oldPanel = "https://i.imgur.com/oX17ID7.png";
     const oldBottomBar = 'https://i.imgur.com/f8IKicJ.png';
 
 
