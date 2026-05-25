@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Margonem 2006 Interface
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Podmienia grafiki na te z 2006 roku. :D
 // @author       Lambo aka Ronnie Radke
 // @match        https://world-retro.margatron.ovh/
@@ -11,6 +11,115 @@
 
 (function() {
     'use strict';
+    let authToken;
+
+    function waitForToken() {
+        const interval = setInterval(() => {
+            const token = localStorage.__AUTH_TOKEN__;
+            if (token) {
+                clearInterval(interval);
+                console.log(`[AuthTokenFetch] Token gotowy: ${token}`);
+                authToken = token;
+            }
+        }, 100);
+    }
+
+    waitForToken();
+
+    const GraphQLManager = {
+        API_URL: `https://engine-${(window.location.href.includes('legacy') ? "legacy" : "retro")}.margatron.ovh/graphql`,
+
+        getToken() {
+            return authToken;
+        },
+
+        async query(queryString) {
+            const token = this.getToken();
+            if (!token) {
+                console.warn('[GraphQLManager] Brak tokena autoryzacji');
+                throw new Error('Brak tokena autoryzacji');
+            }
+
+            try {
+                const res = await fetch(this.API_URL, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                        "authorization": token
+                    },
+                    body: JSON.stringify({ query: queryString })
+                });
+                const json = await res.json();
+
+                if (json.errors) {
+                    console.error('[GraphQLManager] GraphQL Errors:', json.errors);
+                    throw new Error('GraphQL Error: ' + JSON.stringify(json.errors));
+                }
+
+                return json.data;
+            } catch (e) {
+                console.error('[GraphQLManager] Błąd zapytania:', e);
+                throw e;
+            }
+        }
+    };
+
+//Avatar
+(async function() {
+    try {
+        const credRes = await fetch("https://margatron.ovh/game-credentials", {
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        const cred = await credRes.json();
+        console.log("game-credentials:", cred);
+
+        const currentId = cred?.characterId;
+
+        if (!currentId) {
+            console.error("Nie znaleziono ID postaci w game-credentials");
+            return;
+        }
+
+        const charsRes = await fetch("https://margatron.ovh/game/api/characters", {
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        const characters = await charsRes.json();
+        console.log("Lista postaci:", characters);
+
+        const currentChar = characters.find(c =>
+            c.id === currentId ||
+            c.characterId === currentId ||
+            c.userId === currentId
+        );
+
+        if (!currentChar) {
+            console.error("Nie znaleziono postaci o ID:", currentId);
+            return;
+        }
+
+        if (!currentChar.src) {
+            console.error("Postać nie ma pola src");
+            return;
+        }
+
+        const img = document.createElement("div");
+        img.style = `background-image: url("${currentChar.src}"); width: 32px; height: 48px;  margin-left: 38px; image-rendering: pixelated;`;
+        document.getElementById("panel").appendChild(img);
+
+    } catch (err) {
+        console.error("Błąd skryptu:", err);
+    }
+})();
 
     const oldPanel = "https://i.imgur.com/zEqVNJX.png";
     const oldBottomBar = 'https://i.imgur.com/f8IKicJ.png';
