@@ -522,6 +522,7 @@
             worldBtn.textContent = '⋮';
             worldBtn.id = 'world-switch-btn';
 
+
             Object.assign(worldBtn.style, {
                 fontSize: '20px',
                 color: '#fff',
@@ -571,6 +572,22 @@
                 const item = document.createElement('div');
                 item.textContent = world;
 
+                Object.assign(item.style, {
+                    padding: "4px 8px",
+                    cursor: "pointer",
+                    borderRadius: "4px",
+                    transition: "background 0.15s",
+                    fontFamily: "Times New Roman",
+                    color: "white"
+                });
+
+                item.addEventListener("mouseenter", () => {
+                    item.style.background = "rgba(76,175,80,0.25)";
+                });
+
+                item.addEventListener("mouseleave", () => {
+                    item.style.background = "transparent";
+                });
 
                 item.addEventListener('click', () => {
                     this.currentWorld = world;
@@ -580,9 +597,20 @@
 
                 worldMenu.appendChild(item);
             });
-            worldBtn.addEventListener('click', () => {
-                worldMenu.style.display = worldMenu.style.display === 'none' ? 'flex' : 'none';
+
+            worldBtn.addEventListener('click', (e) => {
+                const show = worldMenu.style.display === 'none' || worldMenu.style.display === '';
+
+                if (show) {
+                    worldMenu.style.display = 'flex';
+
+                    worldMenu.style.left = e.clientX + 'px';
+                    worldMenu.style.top = (e.clientY + 10) + 'px';
+                } else {
+                    worldMenu.style.display = 'none';
+                }
             });
+
 
 
             this.renderCharacters(this.currentWorld);
@@ -590,6 +618,7 @@
 
         createWorldSwitcher(worlds) {
             const container = document.createElement('div');
+
             container.id = 'world-switcher-container';
             Object.assign(container.style, {
                 display: 'flex',
@@ -610,6 +639,7 @@
                 const order = { 'retro': 0, 'legacy': 1, 'classic': 2 };
                 return (order[a] || 99) - (order[b] || 99);
             });
+
 
             sortedWorlds.forEach(worldKey => {
                 const btn = document.createElement('button');
